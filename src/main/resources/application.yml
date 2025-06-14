@@ -1,0 +1,103 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/payment
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format-sql: true
+
+  #spring cloud
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: pkc-gq2xn.asia-northeast3.gcp.confluent.cloud:9092
+          configuration:
+            security:
+              protocol: SASL_SSL
+            sasl:
+              jaas:
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='WSGNVHNZPXEFWD73' password='Imaot2b9NjkhWvdh6h0a1lw8zP/bvYt1K+HNtUEujqy5oK4SGPf5OMKTXj/c8Zxo';
+              mechanism: PLAIN
+            client:
+              id: ccloud-springboot-client-86896853-a113-4b15-b7a2-1c4b9f8e588c
+              dns:
+                lookup: use_all_dns_ips
+          required-acks: all
+          auto-create-topics: false
+
+        bindings:
+          send-out-0:
+            producer:
+              record-metadata-channel: payment-result
+
+          wallet-in-0:
+            consumer:
+              configuration:
+                isolation:
+                  level: read_committed
+              enable-dlq: true
+              dlq-name: wallet_payment_dlq
+
+          ledger-in-0:
+            consumer:
+              configuration:
+                isolation:
+                  level: read_committed
+              enable-dlq: true
+              dlq-name: ledger_payment_dlq
+
+      bindings:
+        consume-in-0:
+          destination: payment
+          group: payment-service
+
+        send-out-0:
+          destination: payment-result
+          group: payment-service
+          producer:
+            record-metadata-channel: payment-result
+
+        wallet-in-0:
+          destination: wallet
+          group: payment-service
+
+        ledger-in-0:
+          destination: ledger
+          group: payment-service
+
+        payment-result:
+          destination: payment-result-metadata
+
+    function:
+      definition: send;wallet;ledger
+
+PSP:
+  toss:
+    url: https://api.tosspayments.com
+    secretKey: test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6
+
+feign:
+  client:
+    config:
+      tossPaymentClient:
+        url: https://api.tosspayments.com
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bindings
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: debug            # 실행된 SQL
+    org.hibernate.type.descriptor.sql: trace  # 바인딩된 파라미터

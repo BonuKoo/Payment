@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 확인</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2rem; }
+        .container { max-width: 600px; margin: auto; border: 1px solid #ccc; border-radius: 8px; padding: 2rem; }
+        h2 { text-align: center; }
+        .info { margin-bottom: 1rem; }
+        .info label { font-weight: bold; }
+        .submit-btn { width: 100%; padding: 1rem; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }
+        .submit-btn:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>결제 정보 확인</h2>
+    <form action="/checkout" method="post">
+        <input type="hidden" name="cartId" th:value="${cartId}" />
+        <input type="hidden" name="buyerId" th:value="${buyerId}" />
+
+        <div th:each="id : ${cartItemIds}">
+            <input type="hidden" name="cartItemIds" th:value="${id}" />
+        </div>
+
+        <div class="info">
+            <label>주문명:</label>
+            <span th:text="${orderName}">주문 상품명</span>
+        </div>
+
+        <div class="info">
+            <label>총 금액:</label>
+            <span th:text="${amount} + '원'">0원</span>
+        </div>
+
+        <button type="submit" class="submit-btn">결제하기</button>
+    </form>
+</div>
+</body>
+</html>
