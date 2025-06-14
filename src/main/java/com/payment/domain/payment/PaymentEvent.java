@@ -39,8 +39,10 @@ public class PaymentEvent {
     @Column(name = "orderId")
     private String orderId;
 
+    /*
     @Column(name = "idempotencyKey")
     private String idempotencyKey;  // orderId
+    */
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;

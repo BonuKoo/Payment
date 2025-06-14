@@ -4,6 +4,7 @@ import com.payment.domain.payment.PaymentEvent;
 import com.payment.domain.payment.PaymentStatus;
 import com.payment.payment.adapter.out.persistent.repository.PaymentEventRepository;
 import com.payment.payment.adapter.out.persistent.repository.springdata.SpringDataJpaPaymentEventRepository;
+import com.payment.payment.domain.PaymentEventDto;
 import com.payment.payment.domain.PendingPaymentEvent;
 import com.payment.payment.domain.PendingPaymentOrder;
 import com.payment.payment.domain.PendingPaymentRowDto;
@@ -27,10 +28,9 @@ public class JpaPaymentEventRepository implements PaymentEventRepository {
     }
 
 
-    public Optional<PaymentEvent> findByIdempotencyKey(String orderId){
-        return springDataJpaPaymentEventRepository.findByIdempotencyKey(orderId);
+    public Optional<PaymentEvent> findByOrderId(String orderId){
+        return springDataJpaPaymentEventRepository.findByOrderId(orderId);
     }
-
 
 
     @Override
@@ -72,6 +72,10 @@ public class JpaPaymentEventRepository implements PaymentEventRepository {
     @Override
     public PaymentEvent getPayment(String orderName) {
         return springDataJpaPaymentEventRepository.findByOrderName(orderName).orElseThrow();
+    }
+
+    public PaymentEventDto getPaymentEventAndOrders(String orderId){
+        return springDataJpaPaymentEventRepository.getPaymentEventAndOrders(orderId);
     }
 
     ;

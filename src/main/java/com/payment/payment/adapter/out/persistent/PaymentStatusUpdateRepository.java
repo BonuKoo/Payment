@@ -12,7 +12,6 @@ import com.payment.payment.application.port.out.PaymentStatusUpdateCommand;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -98,7 +97,7 @@ public class PaymentStatusUpdateRepository {
     }
     // 키 업데이트
     private void updatePaymentKey(String orderId, String paymentKey) {
-        Optional<PaymentEvent> paymentEventOptional = paymentEventRepository.findByIdempotencyKey(orderId);
+        Optional<PaymentEvent> paymentEventOptional = paymentEventRepository.findByOrderId(orderId);
         PaymentEvent paymentEvent = paymentEventOptional
                 .orElseThrow((() -> new EntityNotFoundException("결제 이벤트를 찾을 수 없습니다.")));
         paymentEvent.setPaymentKey(paymentKey);
@@ -135,7 +134,7 @@ public class PaymentStatusUpdateRepository {
     }
 
     private void updatePaymentEventExtraDetails(PaymentStatusUpdateCommand command){
-        Optional<PaymentEvent> paymentEventOptional = paymentEventRepository.findByIdempotencyKey(command.getOrderId());
+        Optional<PaymentEvent> paymentEventOptional = paymentEventRepository.findByOrderId(command.getOrderId());
         PaymentEvent event = paymentEventOptional.orElseThrow(() -> new EntityNotFoundException("결제 이벤트 없음"));
 
         PaymentExtraDetails details = command.getExtraDetails();

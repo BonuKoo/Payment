@@ -25,7 +25,7 @@ public class PaymentOrderRepository4QueryImpl implements PaymentOrderRepository4
     public List<PaymentOrder> findListPaymentOrderByIdempotencyKey(String orderId){
         List<PaymentOrder> query = queryFactory
                 .selectFrom(paymentOrder)
-                .where(paymentOrder.idempotencyKey.eq(orderId))
+                .where(paymentOrder.orderId.eq(orderId))
                 .fetch();
         return query;
     };
@@ -34,7 +34,7 @@ public class PaymentOrderRepository4QueryImpl implements PaymentOrderRepository4
         Long totalAmount = Long.valueOf(queryFactory
                 .select(paymentOrder.amount.sum())
                 .from(paymentOrder)
-                .where(paymentOrder.idempotencyKey.eq(orderId))
+                .where(paymentOrder.orderId.eq(orderId))
                 .fetchOne());
 
         if (totalAmount == null) {
@@ -54,7 +54,7 @@ public class PaymentOrderRepository4QueryImpl implements PaymentOrderRepository4
     public long incrementFailedCountByOrderId(String orderId){
         return queryFactory.update(paymentOrder)
                 .set(paymentOrder.failed_count, paymentOrder.failed_count.add(1))
-                .where(paymentOrder.idempotencyKey.eq(orderId))
+                .where(paymentOrder.orderId.eq(orderId))
                 .execute();
     }
 

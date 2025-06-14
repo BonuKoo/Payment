@@ -22,10 +22,10 @@ spring:
               protocol: SASL_SSL
             sasl:
               jaas:
-                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='WSGNVHNZPXEFWD73' password='Imaot2b9NjkhWvdh6h0a1lw8zP/bvYt1K+HNtUEujqy5oK4SGPf5OMKTXj/c8Zxo';
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='7XMRAGCB5H3YKHOL' password='qHvJWkiFHEt9QYjTOctPfduEOupknS2ohtv9o7EpeXFe883cjec4EvdI+uxocAQ7';
               mechanism: PLAIN
             client:
-              id: ccloud-springboot-client-86896853-a113-4b15-b7a2-1c4b9f8e588c
+              id: ccloud-springboot-client-ba5bacc8-54fe-4034-b306-d22c49e172ff
               dns:
                 lookup: use_all_dns_ips
           required-acks: all

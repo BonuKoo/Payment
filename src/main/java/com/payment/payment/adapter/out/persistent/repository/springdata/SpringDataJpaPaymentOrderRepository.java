@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface SpringDataJpaPaymentOrderRepository extends JpaRepository<PaymentOrder, Long>, PaymentOrderRepository4Query {
 
-    Optional<PaymentOrder> findByIdempotencyKey(String orderId);
+    Optional<PaymentOrder> findByOrderId(String orderId);
 
 }

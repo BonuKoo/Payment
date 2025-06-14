@@ -1,16 +1,21 @@
 package com.payment.payment.adapter.out.persistent.repository.querydsl;
 
+import com.payment.domain.payment.PaymentEvent;
 import com.payment.domain.payment.PaymentStatus;
 import com.payment.domain.payment.QPaymentEvent;
 import com.payment.domain.payment.QPaymentOrder;
+import com.payment.payment.domain.PaymentEventDto;
+import com.payment.payment.domain.PaymentOrderDto;
 import com.payment.payment.domain.PendingPaymentRowDto;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PaymentEventRepository4QueryImpl implements PaymentEventRepository4Query{
@@ -32,7 +37,7 @@ public class PaymentEventRepository4QueryImpl implements PaymentEventRepository4
                 .select(Projections.constructor(PendingPaymentRowDto.class,
                         paymentEvent.id,
                         paymentEvent.paymentKey,
-                        paymentEvent.idempotencyKey,
+                        paymentEvent.orderId,
                         paymentOrder.id,
                         paymentOrder.paymentStatus,
                         paymentOrder.amount,
@@ -49,6 +54,43 @@ public class PaymentEventRepository4QueryImpl implements PaymentEventRepository4
                 )
                 .limit(10)
                 .fetch();
-
     }
+
+    @Override
+    public PaymentEventDto getPaymentEventAndOrders(String orderId) {
+
+        PaymentEventDto paymentEventDto = queryFactory
+                .select(Projections.constructor(PaymentEventDto.class,
+                        paymentEvent.id,
+                        paymentEvent.orderId,
+                        paymentEvent.orderName,
+                        paymentEvent.buyerId,
+                        paymentEvent.isPaymentDone,
+                        Expressions.constant(null)
+                ))
+                .from(paymentEvent)
+                .where(paymentEvent.orderId.eq(orderId))
+                .fetchOne();
+
+        List<PaymentOrderDto> orders = queryFactory
+                .select(Projections.constructor(PaymentOrderDto.class,
+                        paymentOrder.id,
+                        paymentOrder.sellerId,
+                        paymentOrder.productId,
+                        paymentOrder.orderId,
+                        paymentOrder.paymentStatus,
+                        paymentOrder.amount,
+                        paymentOrder.isLedgerUpdated,
+                        paymentOrder.isWalletUpdated
+                ))
+                .from(paymentOrder)
+                .where(paymentOrder.orderId.eq(orderId))
+                .fetch();
+
+        if (paymentEventDto != null){
+            paymentEventDto.setPaymentOrders(orders);
+        }
+        return paymentEventDto;
+    }
+
 }

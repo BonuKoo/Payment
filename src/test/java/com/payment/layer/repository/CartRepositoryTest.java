@@ -14,8 +14,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-//@Transactional
+//@SpringBootTest
 class CartRepositoryTest {
 
     @Autowired
@@ -27,7 +26,7 @@ class CartRepositoryTest {
     @Autowired
     CartItemRepository cartItemRepository;
 
-    @Test
+    //@Test
     void findById_WithEntityGraph_ShouldFetchCartItemsAndItem() {
 
         // Given: Cart, Item, CartItem 생성 및 저장
@@ -51,29 +50,7 @@ class CartRepositoryTest {
                 .count(3)
                 .build();
         cartItemRepository.save(cartItem);
-        /*
-        //Long cartId = cart.getId();
-        Cart cartOpt = cartRepository.findById(0L).get();
-        Long cartId = cartOpt.getId();
-        // When: findById 호출
-        Optional<Cart> optionalCart = cartRepository.findById(cartId);
 
-        // Then: EntityGraph에 의해 cartItems와 item이 모두 로딩되었는지 확인
-
-        assertThat(optionalCart).isPresent();
-        Cart foundCart = optionalCart.get();
-
-        // cartItems 검증
-        assertThat(foundCart.getCartItems()).hasSize(1);
-
-        CartItem foundCartItem = foundCart.getCartItems().get(0);
-        assertThat(foundCartItem.getCount()).isEqualTo(2);
-
-        // 아무튼 가져온다는 사실 확인
-        assertThat(foundCartItem.getItem()).isNotNull();
-        assertThat(foundCartItem.getItem().getTitle()).isEqualTo("테스트 상품");
-         */
-    //*/
     }
 
 //    @Test

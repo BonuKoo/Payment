@@ -92,7 +92,7 @@ class PaymentEventRepositoryTest {
 
         PaymentEvent paymentEvent = PaymentEvent.builder()
                 .buyerId(buyerId)
-                .idempotencyKey(idemKey)
+                .orderId(idemKey)
                 .orderName(orderName)
                 .method(PaymentMethod.EASY_PAY)
 //                .paymentOrders(paymentOrders)
@@ -102,7 +102,7 @@ class PaymentEventRepositoryTest {
         List<PaymentOrder> paymentOrders = cartItems.stream()
                 .map(cartItem -> PaymentOrder.builder()
                         .sellerId(cartItem.getItem().getSellerId())
-                        .idempotencyKey(idemKey)
+                        .orderId(idemKey)
                         .productId(cartItem.getItem().getIsbn())
                         .amount(cartItem.getItem().getPrice() * cartItem.getCount())
                         .paymentStatus(PaymentStatus.NOT_STARTED)

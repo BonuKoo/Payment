@@ -1,6 +1,7 @@
 package com.payment.payment.adapter.out.persistent.repository;
 
 import com.payment.domain.payment.PaymentEvent;
+import com.payment.payment.domain.PaymentEventDto;
 import com.payment.payment.domain.PendingPaymentEvent;
 import com.payment.payment.domain.PendingPaymentRowDto;
 
@@ -12,7 +13,7 @@ public interface PaymentEventRepository {
 
     void save (PaymentEvent paymentEvent);
 
-    Optional<PaymentEvent> findByIdempotencyKey(String orderId);
+    Optional<PaymentEvent> findByOrderId(String orderId);
 
     List<PendingPaymentEvent> getPendingPayments();
 
@@ -20,5 +21,7 @@ public interface PaymentEventRepository {
     
     // 추후 orderId로 바꿔야 함
     PaymentEvent getPayment(String orderId);
+
+    PaymentEventDto getPaymentEventAndOrders(String orderId);
 
 }

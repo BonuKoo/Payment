@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface PaymentOrderRepository {
 
-    Optional<PaymentOrder> findByIdempotencyKey(String orderId);
+    Optional<PaymentOrder> findByOrderId(String orderId);
 
     List<PaymentOrder> findListPaymentOrderByIdempotencyKey(String orderId);
 

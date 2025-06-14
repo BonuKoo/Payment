@@ -32,7 +32,7 @@ public class CheckoutController {
     public String checkoutPage(Model model){
 
         // Cart , CartItem
-        Cart cart = cartRepository.findById(5L)
+        Cart cart = cartRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("Cart 없다"));
         List<CartItem> cartItems = cart.getCartItems();
 
@@ -74,37 +74,8 @@ public class CheckoutController {
         redirectAttributes.addFlashAttribute("amount", result.getAmount());
         redirectAttributes.addFlashAttribute("buyerId", request.getBuyerId());
 
-        //redirectAttributes.addFlashAttribute("cartId", );
-        //redirectAttributes.addFlashAttribute("buyerId", result.getAmount());
-
-
-        /*
-        model.addAttribute("orderId", result.getOrderId());
-        model.addAttribute("orderName", result.getOrderName());
-        model.addAttribute("amount", result.getAmount());
-        */
         return "redirect:/pay";
     }
-
-    /*
-    @GetMapping("/")
-    public String checkout2(@ModelAttribute
-                               CheckoutRequest request, Model model){
-        // 프론트에서 장바구니 정보 및 배송 정보 등이 입력.
-        CheckoutCommand checkoutCommand = CheckoutCommand.builder()
-                .cartId(request.getCartId())          // 기존엔 Cart 였음
-                .buyerId(request.getBuyerId())
-                .cartItemIds(request.getCartItemIds())
-                .idempotencyKey(IdempotencyCreator.create(request))
-                .build();
-
-        CheckoutResult result = checkoutUseCase.checkout(checkoutCommand);
-
-        model.addAttribute("orderId", result.getOrderId());
-        model.addAttribute("orderName", result.getOrderName());
-        model.addAttribute("amount", result.getAmount());
-        return "index";
-    }*/
 
     // 3. 결제 진행 페이지
     @GetMapping("/pay")

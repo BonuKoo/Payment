@@ -30,8 +30,10 @@ public class PaymentOrder {
     private String orderId;
 
     //orderId
+    /*
     @Column(nullable = false)
     private String idempotencyKey;
+    */
 
     @Column(nullable = false)
     private int amount; // 결제 금액

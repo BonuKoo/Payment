@@ -16,8 +16,8 @@ public class JpaPaymentOrderRepository implements PaymentOrderRepository {
     private final SpringDataJpaPaymentOrderRepository springDataJpaPaymentOrderRepository;
 
     @Override
-    public Optional<PaymentOrder> findByIdempotencyKey(String orderId) {
-        return springDataJpaPaymentOrderRepository.findByIdempotencyKey(orderId);
+    public Optional<PaymentOrder> findByOrderId(String orderId) {
+        return springDataJpaPaymentOrderRepository.findByOrderId(orderId);
     }
 
     @Override

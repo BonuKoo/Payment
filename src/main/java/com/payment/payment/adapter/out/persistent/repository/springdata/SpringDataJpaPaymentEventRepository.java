@@ -8,10 +8,8 @@ import java.util.Optional;
 
 public interface SpringDataJpaPaymentEventRepository extends JpaRepository<PaymentEvent, Long>, PaymentEventRepository4Query {
 
-    Optional<PaymentEvent> findByIdempotencyKey(String orderId);
+    Optional<PaymentEvent> findByOrderId(String orderId);
 
     Optional<PaymentEvent> findByOrderName(String orderName);
-
-//    Optional<PaymentEvent> findByOrderId(String orderId);
 
 }

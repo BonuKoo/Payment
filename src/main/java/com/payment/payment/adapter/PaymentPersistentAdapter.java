@@ -8,6 +8,7 @@ import com.payment.payment.adapter.out.persistent.repository.PaymentOrderHistory
 import com.payment.payment.adapter.out.persistent.repository.PaymentOrderRepository;
 import com.payment.payment.adapter.out.persistent.repository.PaymentOutboxRepository;
 import com.payment.payment.application.port.out.*;
+import com.payment.payment.domain.PaymentEventDto;
 import com.payment.payment.domain.PendingPaymentEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,12 @@ public class PaymentPersistentAdapter implements SavePaymentPort, PaymentStatusU
     public PaymentEvent getPayment(String orderName) {
         return paymentEventRepository.getPayment(orderName);
     }
+
+    @Override
+    public PaymentEventDto getPaymentEventAndOrders(String orderId) {
+        return paymentEventRepository.getPaymentEventAndOrders(orderId);
+    }
+
     // TODO
     @Override
     public void complete(PaymentEvent paymentEvent) {
