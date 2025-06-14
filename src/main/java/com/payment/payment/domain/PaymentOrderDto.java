@@ -29,4 +29,22 @@ public class PaymentOrderDto {
         this.isLedgerUpdated = isLedgerUpdated;
         this.isWalletUpdated = isWalletUpdated;
     }
+
+    // 메서드
+    public boolean isLedgerUpdated() {
+        return isLedgerUpdated;
+    }
+
+    public boolean isWalletUpdated() {
+        return isWalletUpdated;
+    }
+
+    public void confirmWalletUpdate() {
+        isWalletUpdated = true;
+    }
+
+    public void confirmLedgerUpdate() {
+        isLedgerUpdated = true;
+    }
+
 }

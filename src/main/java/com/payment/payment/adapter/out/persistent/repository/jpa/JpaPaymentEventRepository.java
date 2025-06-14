@@ -8,6 +8,7 @@ import com.payment.payment.domain.PaymentEventDto;
 import com.payment.payment.domain.PendingPaymentEvent;
 import com.payment.payment.domain.PendingPaymentOrder;
 import com.payment.payment.domain.PendingPaymentRowDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +32,6 @@ public class JpaPaymentEventRepository implements PaymentEventRepository {
     public Optional<PaymentEvent> findByOrderId(String orderId){
         return springDataJpaPaymentEventRepository.findByOrderId(orderId);
     }
-
 
     @Override
     public List<PendingPaymentEvent> getPendingPayments() {
@@ -74,10 +74,24 @@ public class JpaPaymentEventRepository implements PaymentEventRepository {
         return springDataJpaPaymentEventRepository.findByOrderName(orderName).orElseThrow();
     }
 
+    @Override
     public PaymentEventDto getPaymentEventAndOrders(String orderId){
         return springDataJpaPaymentEventRepository.getPaymentEventAndOrders(orderId);
     }
 
+    @Override
+    @Transactional
+    public void complete(PaymentEventDto paymentEventDto) {
+        if (paymentEventDto.isPaymentDone()) {
+            // 모든 업데이트 및 완료 처리 포함
+            springDataJpaPaymentEventRepository.handlePaymentCompletion(paymentEventDto);
+        } else if (paymentEventDto.isWalletUpdateDone()) {
+            springDataJpaPaymentEventRepository.handleWalletUpdate(paymentEventDto);
+        } else if (paymentEventDto.isLedgerUpdateDone()) {
+            springDataJpaPaymentEventRepository.handleLedgerUpdate(paymentEventDto);
+        } else {
+            throw new IllegalStateException("Incorrect state for PaymentEvent id: " + paymentEventDto.getId());
+        }
+    }
     ;
-
 }

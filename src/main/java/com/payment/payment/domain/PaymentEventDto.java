@@ -1,5 +1,6 @@
 package com.payment.payment.domain;
 
+import com.payment.domain.payment.PaymentOrder;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,31 @@ public class PaymentEventDto {
         this.buyerId = buyerId;
         this.isPaymentDone = isPaymentDone;
         this.paymentOrders = paymentOrders;
+    }
+
+    public void confirmWalletUpdate() {
+        paymentOrders.forEach(PaymentOrderDto::confirmWalletUpdate);
+    }
+
+    public void confirmLedgerUpdate() {
+        paymentOrders.forEach(PaymentOrderDto::confirmLedgerUpdate);
+    }
+
+    public boolean isLedgerUpdateDone() {
+        return paymentOrders.stream().allMatch(PaymentOrderDto::isLedgerUpdated);
+    }
+
+    public void completeIfDone() {
+        if (allPaymentOrdersDone()) {
+            isPaymentDone = true;
+        }
+    }
+
+    public boolean isWalletUpdateDone() {
+        return paymentOrders.stream().allMatch(PaymentOrderDto::isWalletUpdated);
+    }
+
+    private boolean allPaymentOrdersDone() {
+        return paymentOrders.stream().allMatch(order -> order.isWalletUpdated() && order.isLedgerUpdated());
     }
 }

@@ -9,4 +9,9 @@ import java.util.List;
 public interface PaymentEventRepository4Query {
     List<PendingPaymentRowDto> findPendingPaymentRows(LocalDateTime now);
     PaymentEventDto getPaymentEventAndOrders(String orderId);
+
+    void handlePaymentCompletion(PaymentEventDto paymentEventDto);
+    void handleWalletUpdate(PaymentEventDto paymentEventDto);
+    void handleLedgerUpdate(PaymentEventDto paymentEventDto);
+
 }

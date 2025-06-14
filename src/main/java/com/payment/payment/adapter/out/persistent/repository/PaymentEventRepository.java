@@ -24,4 +24,5 @@ public interface PaymentEventRepository {
 
     PaymentEventDto getPaymentEventAndOrders(String orderId);
 
+    void complete(PaymentEventDto paymentEventDto);
 }

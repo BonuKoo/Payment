@@ -105,24 +105,13 @@ public class PaymentEvent {
         this.paymentOrders = paymentOrders;
     }
 
-    /*
-    todo
-    public void setOrder(Order order) {
-        this.order = order;
-    }*/
-    /*
+
     public void confirmWalletUpdate() {
         paymentOrders.forEach(PaymentOrder::confirmWalletUpdate);
     }
 
     public void confirmLedgerUpdate() {
         paymentOrders.forEach(PaymentOrder::confirmLedgerUpdate);
-    }
-
-    public void completeIfDone() {
-        if (allPaymentOrdersDone()) {
-            paymentDone = true;
-        }
     }
 
     public boolean isLedgerUpdateDone() {
@@ -133,8 +122,14 @@ public class PaymentEvent {
         return paymentOrders.stream().allMatch(PaymentOrder::isWalletUpdated);
     }
 
+    public void completeIfDone() {
+        if (allPaymentOrdersDone()) {
+            isPaymentDone = true;
+        }
+    }
+
     private boolean allPaymentOrdersDone() {
         return paymentOrders.stream().allMatch(order -> order.isWalletUpdated() && order.isLedgerUpdated());
     }
-    */
+
 }

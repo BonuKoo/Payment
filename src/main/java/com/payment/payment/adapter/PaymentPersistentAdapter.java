@@ -62,10 +62,9 @@ public class PaymentPersistentAdapter implements SavePaymentPort, PaymentStatusU
         return paymentEventRepository.getPaymentEventAndOrders(orderId);
     }
 
-    // TODO
     @Override
-    public void complete(PaymentEvent paymentEvent) {
-
+    public void complete(PaymentEventDto paymentEvent) {
+        return;
     }
 
 }
