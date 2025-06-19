@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "wallets")
 //@AllArgsConstructor
 public class Wallet {
 
@@ -21,7 +22,7 @@ public class Wallet {
     private Long id;
     
     // 한 유저 당 하나의 지갑 이므로 unique=true
-    @Column(name = "user_id", nullable = false, unique = true)
+    @Column(name = "account_id", nullable = false, unique = true)
     private Long userId;
 
     // 지갑 잔액
@@ -58,21 +59,7 @@ public class Wallet {
     }
 
     public void addBalance(BigDecimal amount) {
-
-
-
         this.balance = this.balance.add(amount);
     }
-
-    /*
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }*/
 
 }

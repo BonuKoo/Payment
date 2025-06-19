@@ -10,7 +10,7 @@ public class JpaPaymentOrderMapper {
         return PaymentOrderDTO.builder()
                 .id(paymentOrder.getId())
                 .sellerId(paymentOrder.getSellerId())
-                .amount(paymentOrder.getAmount().longValue())
+                .amount(paymentOrder.getAmount())
                 .orderId(paymentOrder.getOrderId())
                 .build();
     }

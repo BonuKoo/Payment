@@ -4,39 +4,37 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/wallet
+    url: jdbc:mysql://127.0.0.1:3306/payment
     username: root
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format-sql: true
     open-in-view: false
 
-  #spring cloud
   cloud:
     stream:
       kafka:
         binder:
-          brokers: pkc-gq2xn.asia-northeast3.gcp.confluent.cloud:9092
+          brokers: pkc-e82om.ap-northeast-2.aws.confluent.cloud:9092
           configuration:
             security:
               protocol: SASL_SSL
             sasl:
               jaas:
-                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='RZT3RYNAU4CNM25N' password='ntJWcbqhQjoY6JN0j6FhjxM39I1r+LbGkFogM6cAUwpaHK9WTIJvVLpyYHLG0V+o';
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='SWJHFI3EMFCYBGO7' password='7X/bhgJpXB1h2x0H9JTKhBWVz4RNzScRASwjb2dkB5EjrV/P8e9aiRDRxcSAUL5T';
               mechanism: PLAIN
             client:
-              id: ccloud-springboot-client-52df1848-af82-460d-a3b4-e4b8a819105f
               dns:
                 lookup: use_all_dns_ips
+
           required-acks: all
           auto-create-topics: false
           transaction:
-
-            # 카프카 트랜잭션 이용
+            transaction-id-prefix: wallet-
             producer:
               configuration:
                 transaction:
@@ -44,24 +42,16 @@ spring:
                     ms: 30000
         bindings:
           consume-in-0:
-            producer:
-              record-metadata-channel: payment-result
             consumer:
               enable-dlq: true
-              dqp-name: payment_wallet_dlq
+              dlq-name: payment_wallet_dlq
 
-      #consume-in-0은 PaymentEventMessageHandler의 consume() 메서드에 연결
       bindings:
         consume-in-0:
           destination: payment
           group: wallet-service
           consumer:
             max-attempts: 5
-          content-type: application/json
-        wallet:
-          destination: wallet    # ✅ output: 메시지를 보낼 토픽
-          content-type: application/json
-
 logging:
   level:
     org:

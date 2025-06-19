@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @SuperBuilder
 public class Item {
 
-    private Long amount;
+    private int amount;
     private String orderId;
     private Long referenceId;
     private ReferenceType referenceType;

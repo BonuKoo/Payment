@@ -5,6 +5,7 @@ import com.payment.wallet.wallet.application.port.in.SettlementUseCase;
 import com.payment.wallet.wallet.application.port.out.*;
 import com.payment.wallet.wallet.domain.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SettlementService implements SettlementUseCase {
 
     private final DuplicateMessageFilterPort duplicateMessageFilterPort;
@@ -21,7 +23,6 @@ public class SettlementService implements SettlementUseCase {
     private final SaveWalletPort saveWalletPort;
     private final UpdateWalletPort updateWalletPort;
 
-
     @Override
     @Transactional
     public WalletEventMessage processSettlement(PaymentEventMessage paymentEventMessage) {
@@ -29,14 +30,12 @@ public class SettlementService implements SettlementUseCase {
 
             //System.out.println("받은 orderId: {} " + paymentEventMessage.getOrderId());
 
-
             return createWalletEventMessage(paymentEventMessage);
         }
         /** orderId 확인
          * */
 
         System.out.println("받은 orderId: {} " + paymentEventMessage.getOrderId());
-
 
         List<PaymentOrderDTO> paymentOrders = loadPaymentOrderPort.getPaymentOrders(paymentEventMessage.getOrderId());
 
@@ -56,8 +55,9 @@ public class SettlementService implements SettlementUseCase {
         System.out.println("[DEBUG] 저장 직전 지갑 상태:");
         updatedWallets.forEach(w -> System.out.println("userId=" + w.getUserId() + ", balance=" + w.getBalance()));
         saveWalletPort.save(updatedWallets);
-// 2.        updateWalletPort.update(updatedWallets);
 
+        // 2.
+        updateWalletPort.update(updatedWallets);
 
         return createWalletEventMessage(paymentEventMessage);
 
@@ -75,7 +75,7 @@ public class SettlementService implements SettlementUseCase {
                 .build();
     }
 
-    private List<WalletDTO> getUpdatedWallets(Map<Long, List<PaymentOrderDTO>> paymentOrdersBySellerId) {
+    private List<WalletDTO> getUpdatedWallets(Map<Long , List<PaymentOrderDTO>> paymentOrdersBySellerId) {
         Set<Long> sellerIds = paymentOrdersBySellerId.keySet();
 
         Set<WalletDTO> wallets = loadWalletPort.getWallets(sellerIds);

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "wallet_transactions")
 /*
         (name = "wallet_transactions", indexes = {
         @Index(name = "idx_wallet_id", columnList = "wallet_id"),

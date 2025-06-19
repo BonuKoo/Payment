@@ -54,21 +54,21 @@ class JpaWalletRepositoryTest {
         WalletDTO walletDTO2 = jpaWalletMapper.mapToDomainEntity(wallet2);
 
         List<Item> itemList1 = Arrays.asList(
-                new Item(1000L,
+                new Item(1000,
                         UUID.randomUUID().toString(),
                         1L,
                         ReferenceType.PAYMENT_ORDER
                         )
         );
         List<Item> itemList2 = Arrays.asList(
-                new Item(2000L,
+                new Item(2000,
                         UUID.randomUUID().toString(),
                         2L,
                         ReferenceType.PAYMENT_ORDER
                 )
         );
         List<Item> itemList3 = Arrays.asList(
-                new Item(3000L,
+                new Item(3000,
                         UUID.randomUUID().toString(),
                         3L,
                         ReferenceType.PAYMENT_ORDER
