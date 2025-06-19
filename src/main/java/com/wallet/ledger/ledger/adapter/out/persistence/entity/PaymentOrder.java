@@ -12,9 +12,10 @@ import java.math.BigDecimal;
 public class PaymentOrder {
 
     @Id
+    @Column(name = "payment_order_id")
     private Long id;
 
-    private BigDecimal amount;
+    private int amount;
 
     @Column(name = "order_id")
     private String orderId;
@@ -22,7 +23,7 @@ public class PaymentOrder {
     public PaymentOrder() {
     }
 
-    public PaymentOrder(Long id, BigDecimal amount, String orderId) {
+    public PaymentOrder(Long id, int amount, String orderId) {
         this.id = id;
         this.amount = amount;
         this.orderId = orderId;
@@ -32,7 +33,7 @@ public class PaymentOrder {
         return id;
     }
 
-    public BigDecimal getAmount() {
+    public int getAmount() {
         return amount;
     }
 

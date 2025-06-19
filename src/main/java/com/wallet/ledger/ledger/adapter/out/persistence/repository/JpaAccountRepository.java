@@ -23,8 +23,13 @@ public class JpaAccountRepository implements AccountRepository{
 
         switch (financeType){
             case PAYMENT_ORDER :
-                Account to = springDataJpaAccountRepository.findByName(REVENUE_ACCOUNT_NAME);
-                Account from = springDataJpaAccountRepository.findByName(ITEM_BUYER_ACCOUNT_NAME);
+                Account to = springDataJpaAccountRepository.findById(3L)
+                        .orElseThrow(() -> new IllegalArgumentException("3L 없다"));
+
+//                springDataJpaAccountRepository.findByName(REVENUE_ACCOUNT_NAME);
+                Account from = springDataJpaAccountRepository.findById(4L)
+                        .orElseThrow(() -> new IllegalArgumentException("4L 없다"));
+//                springDataJpaAccountRepository.findByName(ITEM_BUYER_ACCOUNT_NAME);
                 return new DoubleAccountsForLedger(
                         jpaAccountMapper.mapToAccountDTO(to),
                         jpaAccountMapper.mapToAccountDTO(from)

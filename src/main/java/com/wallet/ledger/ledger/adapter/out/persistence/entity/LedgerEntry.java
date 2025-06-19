@@ -4,8 +4,11 @@ import com.wallet.ledger.ledger.domain.LedgerEntryType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ledger_entries")
@@ -26,6 +29,14 @@ public class LedgerEntry {
 
     @Enumerated(EnumType.STRING)
     private LedgerEntryType type;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public LedgerEntry() {
     }

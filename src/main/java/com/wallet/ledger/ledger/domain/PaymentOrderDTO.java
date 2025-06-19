@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class PaymentOrderDTO extends ItemDTO{
 
     @Builder
-    public PaymentOrderDTO(Long id, Long amount, String orderId) {
+    public PaymentOrderDTO(Long id, int amount, String orderId) {
         super(id, amount, orderId, ReferenceType.PAYMENT_ORDER);
     }
 }

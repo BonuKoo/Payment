@@ -27,7 +27,6 @@ public class PaymentEventMessageHandler {
     public Consumer<Message<PaymentEventMessage>> consume() {
         return message -> {
             LedgerEventMessage ledgerEventMessage = doubleLedgerEntryRecordUseCase.recordDoubleLedgerEntry(message.getPayload());
-            // Ledger 토픽에 메시지 전송
             streamBridge.send("ledger", ledgerEventMessage);
         };
     }

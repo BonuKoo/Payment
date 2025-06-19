@@ -1,6 +1,10 @@
 package com.wallet.ledger.ledger.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ledger_transactions")
@@ -23,6 +27,14 @@ public class LedgerTransaction {
 
     @Column(name = "idempotency_key")
     private String idempotencyKey;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public LedgerTransaction() {
     }

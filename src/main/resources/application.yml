@@ -4,40 +4,38 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/ledger
+    url: jdbc:mysql://127.0.0.1:3306/payment
     username: root
     password: 1234
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format-sql: true
     open-in-view: false
 
-  #spring cloud
   cloud:
     stream:
       kafka:
         binder:
-          brokers: pkc-gq2xn.asia-northeast3.gcp.confluent.cloud:9092
+          brokers: pkc-e82om.ap-northeast-2.aws.confluent.cloud:9092
           configuration:
             security:
               protocol: SASL_SSL
             sasl:
               jaas:
-                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='WSGNVHNZPXEFWD73' password='Imaot2b9NjkhWvdh6h0a1lw8zP/bvYt1K+HNtUEujqy5oK4SGPf5OMKTXj/c8Zxo';
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='SWJHFI3EMFCYBGO7' password='7X/bhgJpXB1h2x0H9JTKhBWVz4RNzScRASwjb2dkB5EjrV/P8e9aiRDRxcSAUL5T';
               mechanism: PLAIN
             client:
-              id: ccloud-springboot-client-86896853-a113-4b15-b7a2-1c4b9f8e588c
               dns:
                 lookup: use_all_dns_ips
+
           required-acks: all
           auto-create-topics: false
           transaction:
             transaction-id-prefix: ledger-
-            # 카프카 트랜잭션 이용
             producer:
               configuration:
                 transaction:
@@ -45,20 +43,15 @@ spring:
                     ms: 30000
         bindings:
           consume-in-0:
-            producer:
-              record-metadata-channel: payment-result
             consumer:
               enable-dlq: true
-              dqp-name: payment_ledger_dlq
-
-      #consume-in-0은 PaymentEventMessageHandler의 consume() 메서드에 연결
+              dlq-name: payment_ledger_dlq
       bindings:
         consume-in-0:
           destination: payment
           group: ledger-service
           consumer:
             max-attempts: 5
-          content-type: application/json
 
 logging:
   level:
