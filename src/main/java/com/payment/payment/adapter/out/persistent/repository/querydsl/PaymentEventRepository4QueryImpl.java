@@ -64,8 +64,7 @@ public class PaymentEventRepository4QueryImpl implements PaymentEventRepository4
                         paymentEvent.orderId,
                         paymentEvent.orderName,
                         paymentEvent.buyerId,
-                        paymentEvent.isPaymentDone,
-                        Expressions.constant(null)
+                        paymentEvent.isPaymentDone
                 ))
                 .from(paymentEvent)
                 .where(paymentEvent.orderId.eq(orderId))
@@ -85,9 +84,8 @@ public class PaymentEventRepository4QueryImpl implements PaymentEventRepository4
                 .where(paymentOrder.orderId.eq(orderId))
                 .fetch();
 
-        if (paymentEventDto != null){
             paymentEventDto.setPaymentOrders(orders);
-        }
+
         return paymentEventDto;
     }
 

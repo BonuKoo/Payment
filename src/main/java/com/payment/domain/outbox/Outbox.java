@@ -20,7 +20,8 @@ public class Outbox {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "idempotency_key", nullable = false, unique = true, length = 255)    private String idempotencyKey;
+    @Column(name = "idempotency_key", nullable = false, unique = true, length = 255)
+    private String idempotencyKey;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

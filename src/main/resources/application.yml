@@ -4,30 +4,30 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/payment
     username: root
     password: 1234
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
-        format-sql: true
+        format_sql: true
 
-  #spring cloud
   cloud:
     stream:
       kafka:
         binder:
-          brokers: pkc-gq2xn.asia-northeast3.gcp.confluent.cloud:9092
+          brokers: pkc-e82om.ap-northeast-2.aws.confluent.cloud:9092
           configuration:
             security:
               protocol: SASL_SSL
             sasl:
               jaas:
-                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='7XMRAGCB5H3YKHOL' password='qHvJWkiFHEt9QYjTOctPfduEOupknS2ohtv9o7EpeXFe883cjec4EvdI+uxocAQ7';
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username='SWJHFI3EMFCYBGO7' password='7X/bhgJpXB1h2x0H9JTKhBWVz4RNzScRASwjb2dkB5EjrV/P8e9aiRDRxcSAUL5T';
               mechanism: PLAIN
             client:
-              id: ccloud-springboot-client-ba5bacc8-54fe-4034-b306-d22c49e172ff
               dns:
                 lookup: use_all_dns_ips
+
           required-acks: all
           auto-create-topics: false
 
@@ -53,15 +53,9 @@ spring:
               dlq-name: ledger_payment_dlq
 
       bindings:
-        consume-in-0:
+        send-out-0:
           destination: payment
           group: payment-service
-
-        send-out-0:
-          destination: payment-result
-          group: payment-service
-          producer:
-            record-metadata-channel: payment-result
 
         wallet-in-0:
           destination: wallet
@@ -71,8 +65,9 @@ spring:
           destination: ledger
           group: payment-service
 
-        payment-result:
-          destination: payment-result-metadata
+#        send-in-0:
+#          destination: dummy
+#          group: payment-service
 
     function:
       definition: send;wallet;ledger
@@ -88,7 +83,6 @@ feign:
       tossPaymentClient:
         url: https://api.tosspayments.com
 
-
 management:
   endpoints:
     web:
@@ -99,5 +93,5 @@ logging:
   level:
     root: INFO
     org.springframework.web: DEBUG
-    org.hibernate.SQL: debug            # 실행된 SQL
-    org.hibernate.type.descriptor.sql: trace  # 바인딩된 파라미터
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace

@@ -27,13 +27,9 @@ public class PaymentEventMessageSender implements DispatchEventMessagePort {
     private final MessageStatusUpdater messageStatusUpdater;
     private final JsonLogger jsonLogger;
 
-    /**
-     * StreamBirdge.send를 통해 지정된 명시적으로 메시지를 전송
-     */
     private void send(PaymentEventMessage message) {
 
         Message<PaymentEventMessage> eventMessage = createEventMessage(message);
-
 
         boolean sent = streamBridge.send("send-out-0", eventMessage);
 
@@ -128,7 +124,7 @@ public class PaymentEventMessageSender implements DispatchEventMessagePort {
 
                  * -> 파티셔닝 로직을 명확히 하고, 데이터 분산 제어 및 순서 보장
                  * */
-                .setHeader(KafkaHeaders.PARTITION, partitionKey)
+//                .setHeader(KafkaHeaders.PARTITION, partitionKey)
                 .build();
     }
 

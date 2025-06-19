@@ -19,8 +19,9 @@ public class Item {
     private int price;
 
     private int stockQuantity;
+
     // 판매자 - 임시
-    private String sellerId;
+    private Long sellerId;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();

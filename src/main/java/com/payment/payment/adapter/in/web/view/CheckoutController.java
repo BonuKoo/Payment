@@ -32,7 +32,7 @@ public class CheckoutController {
     public String checkoutPage(Model model){
 
         // Cart , CartItem
-        Cart cart = cartRepository.findById(1L)
+        Cart cart = cartRepository.findById(4L)
                 .orElseThrow(() -> new IllegalArgumentException("Cart 없다"));
         List<CartItem> cartItems = cart.getCartItems();
 

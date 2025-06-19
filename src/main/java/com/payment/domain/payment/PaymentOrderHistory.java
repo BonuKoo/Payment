@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Builder
+@Table(name = "payment_order_history")
 public class PaymentOrderHistory {
 
     @Id
@@ -29,7 +31,8 @@ public class PaymentOrderHistory {
     @Column(name = "new_status")
     private PaymentStatus newStatus;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "changed_by")

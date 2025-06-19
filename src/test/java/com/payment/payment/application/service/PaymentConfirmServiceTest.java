@@ -74,7 +74,7 @@ class PaymentConfirmServiceTest {
                 .title("테스트 상품3")
                 .price(10000)
                 .stockQuantity(10)
-                .sellerId("5")
+                .sellerId(5L)
                 .build();
         itemRepository.save(item);
 

@@ -20,7 +20,7 @@ public class PaymentApplication {
 		SpringApplication application = new SpringApplication(PaymentApplication.class);
 		application.run(args);
 	}
-
+	/*
 	@Bean
 	public Consumer<Message<String>> consumer(){
 		return message ->{
@@ -28,5 +28,6 @@ public class PaymentApplication {
 			System.out.println("Received message: " + payload);
 		};
 	}
+	*/
 
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class PaymentOrderDto {
 
     private Long id;
-    private String sellerId;
+    private Long sellerId;
     private String productId;
     private String orderId;
     private int amount;
@@ -19,7 +19,7 @@ public class PaymentOrderDto {
     private boolean isWalletUpdated;
 
     @QueryProjection
-    public PaymentOrderDto(Long id, String sellerId, String productId, String orderId, PaymentStatus paymentStatus, int amount, boolean isLedgerUpdated, boolean isWalletUpdated) {
+    public PaymentOrderDto(Long id, Long sellerId, String productId, String orderId, PaymentStatus paymentStatus, int amount, boolean isLedgerUpdated, boolean isWalletUpdated) {
         this.id = id;
         this.sellerId = sellerId;
         this.productId = productId;

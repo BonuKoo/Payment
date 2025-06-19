@@ -20,6 +20,14 @@ public class PaymentEventDto {
     private boolean isPaymentDone;
     private List<PaymentOrderDto> paymentOrders;
 
+    public PaymentEventDto(Long id, String orderId, String orderName, Long buyerId, boolean isPaymentDone) {
+        this.id = id;
+        this.orderId = orderId;
+        this.orderName = orderName;
+        this.buyerId = buyerId;
+        this.isPaymentDone = isPaymentDone;
+    }
+
     @QueryProjection
     public PaymentEventDto(Long id, String orderId, String orderName, Long buyerId, boolean isPaymentDone, List<PaymentOrderDto> paymentOrders) {
         this.id = id;

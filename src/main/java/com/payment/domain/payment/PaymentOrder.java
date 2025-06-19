@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity @Table(name = "payment_order")
+@Entity @Table(name = "payment_orders")
 @AllArgsConstructor @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder @Getter
 public class PaymentOrder {
@@ -21,19 +21,13 @@ public class PaymentOrder {
     private PaymentEvent paymentEvent;
 
     @Column(nullable = false)
-    private String sellerId; // 판매자 ID
+    private Long sellerId; // 판매자 ID
 
     @Column(nullable = false)
     private String productId; // 상품 ID
 
-    @Column(name = "orderId")
+    @Column(name = "order_id")
     private String orderId;
-
-    //orderId
-    /*
-    @Column(nullable = false)
-    private String idempotencyKey;
-    */
 
     @Column(nullable = false)
     private int amount; // 결제 금액
@@ -63,10 +57,10 @@ public class PaymentOrder {
      *
      */
 
-    //@Column(nullable = false)
+    @Column(name = "is_ledger_updated",nullable = false)
     private boolean isLedgerUpdated; //장부 기입 여부
 
-    //@Column(nullable = false)
+    @Column(name = "is_wallet_updated",nullable = false)
     private boolean isWalletUpdated; //정산 처리 여부
 
     // 메서드

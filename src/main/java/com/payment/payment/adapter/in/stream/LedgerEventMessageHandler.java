@@ -12,30 +12,22 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.function.Consumer;
 
+@Component
 @RequiredArgsConstructor
 public class LedgerEventMessageHandler {
 
     private final PaymentCompleteUseCase paymentCompleteUseCase;
 
-    @KafkaListener(topics = "ledger-topic", groupId = "payment-service")
-    public void ledger (@Payload LedgerEventMessage message,
-                        @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment){
-
-        try {
-
-            paymentCompleteUseCase.completePaymentLedger(message);
-
-            acknowledgment.acknowledge();
-
-        } catch (Exception e){
-
-            // todo 예외 처리 , 로깅, 재시도
-            // acknowledgment.acknowledge(); 생략 시 메시지 다시 소비 가능
-            throw e; // 혹은 적절히 처리
-
-        }
-
+    @Bean
+    public Consumer<LedgerEventMessage> ledger(){
+        return ledgerEventMessage -> {
+            try {
+                paymentCompleteUseCase.completePaymentLedger(ledgerEventMessage);
+            } catch (Exception e){
+                throw new RuntimeException("Ledger 처리 실패", e);
+            }
+        };
     }
 }

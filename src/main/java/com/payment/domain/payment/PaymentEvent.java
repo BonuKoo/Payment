@@ -28,21 +28,8 @@ public class PaymentEvent {
     @Column(nullable = true)
     private String paymentKey; // 외부 결제 키
 
-    /*
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id"
-    //        , nullable = false
-    )
-    private Order order;
-    */
-
-    @Column(name = "orderId")
+    @Column(name = "order_id")
     private String orderId;
-
-    /*
-    @Column(name = "idempotencyKey")
-    private String idempotencyKey;  // orderId
-    */
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;

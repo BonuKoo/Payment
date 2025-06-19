@@ -59,7 +59,7 @@ class PaymentEventRepositoryTest {
                 .title("테스트 상품")
                 .price(10000)
                 .stockQuantity(10)
-                .sellerId("3")
+                .sellerId(3L)
                 .build();
 
         itemRepository.save(item);

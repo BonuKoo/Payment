@@ -26,21 +26,21 @@ class CartRepositoryTest {
     @Autowired
     CartItemRepository cartItemRepository;
 
-    //@Test
+//    @Test
     void findById_WithEntityGraph_ShouldFetchCartItemsAndItem() {
 
         // Given: Cart, Item, CartItem 생성 및 저장
         Item item = Item.builder()
-                .isbn("ISBN-1235")
-                .title("Test_Item2")
+                .isbn("ISBN-1236")
+                .title("Test_Item3")
                 .price(20000)
                 .stockQuantity(100)
-                .sellerId("SellerTest")
+                .sellerId(3L)
                 .build();
         itemRepository.save(item);
 
         Cart cart = Cart.builder()
-                .buyerId(1L)
+                .buyerId(4L)
                 .build();
         cartRepository.save(cart);
 
